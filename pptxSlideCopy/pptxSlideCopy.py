@@ -51,9 +51,11 @@ filepath = "ppt/media/media1.mp4"
 file = getFileFromZip(filepath, sourecFile)
 
 
-test = zh.copyFile(sourecFile, targetFile, filepath)
-print(test)
+# test = zh.copyFile(sourecFile, targetFile, filepath)
+# print(test)
 
 
 # test = zh.getNextFileNoInFilePath(filepath, zh.getContentsOfZipfileDirectory(targetFile, 'ppt/media'))
 # print(test)
+
+target_presentation.copySlideFromPresentation(source_presentation, 1)

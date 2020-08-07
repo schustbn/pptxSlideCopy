@@ -58,7 +58,8 @@ def getNextFileNoInFilePath(path: str, directory_list: list) -> int:
     for file in directory_list:
         print(path_type + " = " + getTypeOfFilePath(file))
         if path_type == getTypeOfFilePath(file):
-            matched_paths.append(file)
+            if not file.endswith("_rels"):
+                matched_paths.append(file)
     print(matched_paths)
 
     nextNo = len(matched_paths) + 1

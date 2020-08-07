@@ -92,6 +92,10 @@ class Slide:
     def getSlideFileWithRelationFiles(self):
         """SlideFile."""
         self.files = list()
+        slidepath = {"elemPath": self.slidePath, "elemType": "slide"}
+        relspath = {"elemPath": self.slideRelsPath, "elemType": "rels"}
+        self.files.append(slidepath)
+        self.files.append(relspath)
         if not self.relations:
             self.getRelations()
         for rel in self.relations:

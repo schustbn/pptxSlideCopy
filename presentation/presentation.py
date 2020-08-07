@@ -133,27 +133,69 @@ class Presentation:
 
         return None
 
-    # def copySlideToPresentation(self, targetPresentation, slideNo: int =None, rId: int =None, position: int =None):
-    #     """Copies the mentioned Slide from current Presentation to targetPresentation, including adapting SlideMaster, Images, pictures, media nad links.
-    #     If position is empty (NOne) slide is appended at the End of the targetPresentation"""
-    #
-    #     #copy Slide itself
-    #     slide_to_copy = self.getSlide(slideNo, rId)
-    #     if slide_to_copy is not None:
-    #         slideNo = len(self.slides)
-    #         slideNo = slideNo + 1000
-    #         slide_to_copy.slidePath = changesFileNoInFilePath(slide_to_copy.slidePath, slideNo)
-    #
-    #
-    #
-    #
-    #
-    #     #rename all slide-files and slide_rels files
-    #     #create rId for new Slide and update
-    #     #add slide to targetpresentation.xml and targetPresentation_rels.xml
-    #     #copy media and rename it
-    #     #copy/create slide_rels.xml and reflect new media names
-    #
+    def copySlideFromPresentation(
+        self,
+        source_presentation,
+        slide_no: int = None,
+        rId: int = None,
+        new_position: int = None,
+    ):
+        """Copies the mentioned Slide from current Presentation to targetPresentation, including adapting SlideMaster, Images, pictures, media nad links.
+        If position is empty (NOne) slide is appended at the End of the targetPresentation"""
+
+        # copy Slide itself
+        slide_to_copy = source_presentation.getSlide(slide_no, rId)
+        if slide_to_copy is not None:
+            slide_files = slide_to_copy.getSlideFileWithRelationFiles()
+            for file in slide_files:
+                print(file)
+                if (
+                    file["elemType"] == "slide"
+                ):  # process the slide itself => copy and update the rIds => needeD???
+                    # copy slide
+                    zh.copyFile(
+                        source_presentation.presentationPath,
+                        self.presentationPath,
+                        file["elemPath"],
+                    )
+
+                    # add slide to presentation.rels
+
+                    # add slide to presentation.xml
+
+                elif (
+                    file["elemType"] == "rels"
+                ):  # process the rels file => copy and update the rId/paths
+                    # copy rels file
+                    zh.copyFile(
+                        source_presentation.presentationPath,
+                        self.presentationPath,
+                        file["elemPath"],
+                    )
+
+                    # update rId
+
+                    # updateSlideLayout
+
+                # slideLayout rausfiltern!!!
+                elif (
+                    file["elemType"] != tc.relTypeSlideLayout
+                ):  # process all related files => copy and update rels
+
+                    # copy file
+                    zh.copyFile(
+                        source_presentation.presentationPath,
+                        self.presentationPath,
+                        file["elemPath"],
+                    )
+
+                    # update rels file with new filename
+
+        # rename all slide-files and slide_rels files
+        # create rId for new Slide and update
+        # add slide to targetpresentation.xml and targetPresentation_rels.xml
+        # copy media and rename it
+        # copy/create slide_rels.xml and reflect new media names
 
     def getSlideWithAllRels(self, slideNo: int = None, rId: int = None):
         slide = self.getSlide(slideNo, rId)
